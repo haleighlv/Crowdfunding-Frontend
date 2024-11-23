@@ -4,6 +4,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import HomePage from "./pages/HomePage.jsx";
 import ProjectPage from "./pages/ProjectPage.jsx";
+import LoginPage from "./pages/LoginPage.jsx";
 
 import NavBar from "./components/NavBar.jsx";
  
@@ -12,8 +13,9 @@ const router = createBrowserRouter([
       path: "/",
        element: <NavBar />,
        children: [
-           { path: "/", element: <HomePage /> },
-           { path: "/project/:id", element: <ProjectPage /> },
+         { path: "/", element: <HomePage /> },
+         { path: "/login", element: <LoginPage />},  
+         { path: "/project/:id", element: <ProjectPage /> },
        ],
    },
  ]);
