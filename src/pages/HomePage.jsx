@@ -17,7 +17,7 @@ if (error) {
             <div className="home-hero">
             <h1 className="home-heading">Give someone a handup</h1>
                 <p className="home-description">Supporting each other to access mental health care</p>
-                <button>Get started</button>
+                <button><a href="src/pages/CreateProjectPage.jsx">Get started</a></button>
                 <button>Learn more</button>
             </div>
             <div className="project-container">

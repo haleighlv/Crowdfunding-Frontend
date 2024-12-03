@@ -1,17 +1,18 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import postUser from "../api/post-user.js";
+import postPledge from "../api/post-pledge.js";
 import { useAuth } from "../hooks/use-auth.js";
 
-function SignupForm() {
+function PledgeForm() {
   const navigate = useNavigate();
   const {auth, setAuth} = useAuth();
 
     const [credentials, setCredentials] = useState({
-        username: "",
-        password: "",
-        email: "",
+        amount: "",
+        comment: "",
+        anonymous: "",
+        project: "",
     });
 
     const handleChange = (event) => {
@@ -23,11 +24,12 @@ function SignupForm() {
     };
     const handleSubmit = (event) => {
       event.preventDefault();
-      if (credentials.username && credentials.password && credentials.email) {
-          postUser(
-              credentials.username,
-              credentials.password,
-              credentials.email
+      if (credentials.amount && credentials.comment && credentials.anonymous && credentials.project) {
+          postPledge(
+              credentials.amount,
+              credentials.comment,
+            credentials.anonymous,
+              credentials.project,
           ).then((response) => {
               window.localStorage.setItem("token", response.token);
             setAuth({
@@ -40,35 +42,44 @@ function SignupForm() {
   return (
     <form>
       <div>
-        <label htmlFor="username">Username:</label>
+        <label htmlFor="amount">Amount:</label>
               <input
                   type="text"
-                  id="username"
-                  placeholder="Enter username"
+                  id="amount"
+                  placeholder="Enter amount"
                   onChange={handleChange}
               />
       </div>
       <div>
-        <label htmlFor="password">Password:</label>
+        <label htmlFor="comment">Comment:</label>
               <input
-                  type="password"
-                  id="password"
-                  placeholder="Password"
+                  type="text"
+                  id="comment"
+                  placeholder="Enter comment"
                   onChange={handleChange}
               />
       </div>
       <div>
-        <label htmlFor="email">Email Address:</label>
+        <label htmlFor="anonymous">Anonymous:</label>
               <input
-                  type="email"
-                  id="email"
-                  placeholder="Email address"
+                  type="text"
+                  id="anonymous"
+                  placeholder="Enter anonymous"
                   onChange={handleChange}
               />
       </div>
-      <button type="submit" onClick={handleSubmit}>Signup</button>
+      <div>
+        <label htmlFor="project">Project:</label>
+              <input
+                  type="text"
+                  id="project"
+                  placeholder="Enter project"
+                  onChange={handleChange}
+              />
+      </div>
+      <button type="submit" onClick={handleSubmit}>Submit</button>
     </form>
   );
 }
 
-export default SignupForm;
+export default PledgeForm;

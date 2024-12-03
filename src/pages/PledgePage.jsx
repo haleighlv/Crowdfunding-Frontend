@@ -1,7 +1,7 @@
-import ProjectForm from "../components/ProjectForm";
+import PledgeForm from "../components/PledgeForm";
 
-function CreateProjectPage() {
-    return <ProjectForm />;
+function PledgePage() {
+    return <PledgeForm />;
 }
 
-export default CreateProjectPage;
+export default PledgePage;
