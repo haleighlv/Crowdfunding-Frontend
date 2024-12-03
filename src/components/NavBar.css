@@ -1,0 +1,67 @@
+.navbar {
+    
+    width: 100%;
+    background-color: #E8B4B8;
+    color: black;
+    padding: 10px 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for separation */
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between; /* Space out logo and links */
+    align-items: center; /* Center vertically */
+    font-family: Arial, Helvetica, sans-serif;
+    
+}
+
+.navbar-logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: white;
+}
+
+.navbar-links {
+    display: flex;
+    gap: 15px; /* Even spacing between links */
+    margin-right: 10px; /* Slight margin from the right */
+}
+
+.navbar-links a {
+    text-decoration: none;
+    color: white;
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+.navbar-links a:hover {
+    color: rgb(98, 98, 138);
+}
+
+.navbar-toggle {
+    display: none; /* Hidden on larger screens */
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: black;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .navbar-links {
+        display: none; /* Hide links by default */
+        flex-direction: column;
+        position: absolute;
+        top: 100%; /* Push links below navbar */
+        right: 0;
+        background-color: navy;
+        width: 100%;
+        padding: 10px 0;
+        z-index: 999; /* Ensure it's above other content */
+    }
+
+    .navbar-links.open {
+        display: flex; /* Show links when the hamburger menu is open */
+    }
+
+    .navbar-toggle {
+        display: block; /* Show hamburger on smaller screens */
+    }
+}

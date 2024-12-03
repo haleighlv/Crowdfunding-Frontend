@@ -4,16 +4,17 @@ import useProject from "../hooks/use-project";
 
 function ProjectPage() {
        // Here we use a hook that comes for free in react router called `useParams` to get the id from the URL so that we can pass it to our useProject hook.
-   const { id } = useParams();
+const { id } = useParams();
    // useProject returns three pieces of info, so we need to grab them all here
-   const { project, isLoading, error } = useProject(id);    
-    if (isLoading) {
-     return (<p>loading...</p>)
-  }
+const { project, isLoading, error } = useProject(id);    
 
-  if (error) {
-      return (<p>{error.message}</p>)
-  }
+    if (isLoading) {
+    return (<p>loading...</p>)
+}
+
+if (error) {
+    return (<p>{error.message}</p>)
+}
     
     return (
         <div>

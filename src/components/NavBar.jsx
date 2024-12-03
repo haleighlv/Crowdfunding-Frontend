@@ -1,16 +1,17 @@
 import { Link, Outlet } from "react-router-dom";
 import { useAuth } from "../hooks/use-auth.js";
-
+import "./NavBar.css";
 
 function NavBar() {
-  const { auth, setAuth } = useAuth();
+  const {auth, setAuth} = useAuth();
 
   const handleLogout = () => {
     window.localStorage.removeItem("token");
     setAuth({ token: null });
-  }
+  };
   return (
     <div>
+      <header className="navbar">
       <nav>
         <Link to="/">Home</Link>
         {auth.token ? (
@@ -20,7 +21,8 @@ function NavBar() {
         ) : (
             <Link to="/login">Login</Link>
         )}
-      </nav>
+        </nav>
+        </header>
       <Outlet />
     </div>
   );

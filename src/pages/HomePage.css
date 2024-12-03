@@ -1,6 +1,48 @@
+.home-container {
+  padding-top: 20px;
+  text-align: center;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
 #project-list {
   display: grid;
   grid-template-columns: 30% 30% 30%;
-  column-gap: 10px;
-  row-gap: 10px;
+  column-gap: 15px;
+  row-gap: 15px;
+}
+
+.home-hero {
+  color: #67595E;
+  font-weight: bold;
+  padding: 100px 50px;
+  background-color: #E8B4B8;
+  background-image: url("src/images/background.jpg");
+  background-size: cover;
+}
+
+.home-hero h1 {
+  font-size: 2.5rem;
+}
+
+.home-hero button {
+  background-color: white;
+  border: none;
+  color: #E8B4B8;
+  text-align: center;
+  padding: 15px;
+  margin: 10px;
+  font-weight: bold;
+  font-size: 16px;
+  border-radius: 4px;
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+}
+
+.project-home {
+  background-color: #EED6D3;
+}
+
+.project-home h2 {
+  padding: 20px;
+  color: #67595E;
+  margin: 2px;
 }
