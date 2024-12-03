@@ -20,7 +20,7 @@ if (error) {
                 <button>Get started</button>
                 <button>Learn more</button>
             </div>
-            <div className="project-home">
+            <div className="project-container">
                 <h2 className="project-heading">Current Projects</h2>
             <div id="project-list">
                 {projects.map((projectData, key) => {

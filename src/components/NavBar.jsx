@@ -18,8 +18,11 @@ function NavBar() {
           <Link to="/" onClick={handleLogout}>
             Log Out
           </Link>
-        ) : (
-            <Link to="/login">Login</Link>
+          ) : (
+          <div>
+              <Link to="/login">Login</Link>
+              <Link to="/signup">Sign up</Link>
+          </div>
         )}
         </nav>
         </header>

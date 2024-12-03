@@ -1,4 +1,5 @@
 .home-container {
+  width: 100%;
   padding-top: 20px;
   text-align: center;
   font-family: Arial, Helvetica, sans-serif;
@@ -9,6 +10,7 @@
   grid-template-columns: 30% 30% 30%;
   column-gap: 15px;
   row-gap: 15px;
+  padding: 15px;
 }
 
 .home-hero {
@@ -18,6 +20,7 @@
   background-color: #E8B4B8;
   background-image: url("src/images/background.jpg");
   background-size: cover;
+  width: 100%;
 }
 
 .home-hero h1 {
@@ -37,11 +40,12 @@
   box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
 }
 
-.project-home {
+.project-container {
   background-color: #EED6D3;
+  width: 100%;
 }
 
-.project-home h2 {
+.project-container h2 {
   padding: 20px;
   color: #67595E;
   margin: 2px;
