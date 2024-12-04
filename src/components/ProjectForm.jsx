@@ -40,44 +40,44 @@ function ProjectForm() {
       }
   };
   return (
-    <form>
-      <div>
+    <form onSubmit={handleSubmit}>
+      <div className="form-item">
         <label htmlFor="title">Title:</label>
-              <input
-                  type="text"
-                  id="title"
-                  placeholder="Enter title"
-                  onChange={handleChange}
-              />
+        <input
+            type="text"
+            id="title"
+            placeholder="Enter title"
+            onChange={handleChange}
+        />
       </div>
-      <div>
+      <div className="form-item">
         <label htmlFor="description">Description:</label>
-              <input
-                  type="text"
-                  id="description"
-                  placeholder="Enter description"
-                  onChange={handleChange}
-              />
+        <input
+            type="text"
+            id="description"
+            placeholder="Enter description"
+            onChange={handleChange}
+        />
       </div>
-      <div>
+      <div className="form-item">
         <label htmlFor="goal">Goal:</label>
-              <input
-                  type="text"
-                  id="goal"
-                  placeholder="Enter goal"
-                  onChange={handleChange}
-              />
+        <input
+            type="text"
+            id="goal"
+            placeholder="Enter goal"
+            onChange={handleChange}
+        />
       </div>
-      <div>
+      <div className="form-item">
         <label htmlFor="image">Image:</label>
-              <input
-                  type="text"
-                  id="image"
-                  placeholder="Enter link to image"
-                  onChange={handleChange}
-              />
+        <input
+            type="text"
+            id="image"
+            placeholder="Enter link to image"
+            onChange={handleChange}
+        />
       </div>
-      <button type="submit" onClick={handleSubmit}>Create Project</button>
+      <button type="submit">Create Project</button>
     </form>
   );
 }
