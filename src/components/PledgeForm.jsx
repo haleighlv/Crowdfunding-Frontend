@@ -6,7 +6,7 @@ import { useAuth } from "../hooks/use-auth.js";
 
 function PledgeForm() {
   const navigate = useNavigate();
-  const {auth, setAuth} = useAuth();
+  const { setAuth } = useAuth();
 
     const [credentials, setCredentials] = useState({
         amount: "",

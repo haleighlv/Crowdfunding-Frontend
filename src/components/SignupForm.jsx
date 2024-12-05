@@ -2,11 +2,10 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import postUser from "../api/post-user.js";
-import { useAuth } from "../hooks/use-auth.js";
 
 function SignupForm() {
   const navigate = useNavigate();
-  const {auth, setAuth} = useAuth();
+  const [errors, setErrors] = useState({});
 
     const [credentials, setCredentials] = useState({
         username: "",
@@ -21,20 +20,26 @@ function SignupForm() {
             [id]: value,
         }));
     };
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
       event.preventDefault();
+      setErrors({});
+
       if (credentials.username && credentials.password && credentials.email) {
-          postUser(
-              credentials.username,
-              credentials.password,
-              credentials.email
-          ).then((response) => {
-              window.localStorage.setItem("token", response.token);
-            setAuth({
-              token: response.token,
-            });
-            navigate("/");
-          });
+          try {
+              await postUser(
+                  credentials.username,
+                  credentials.password,
+                  credentials.email
+              );
+              navigate("/login");
+          } catch (error) {
+              try {
+                  const errorData = JSON.parse(error.message);
+                  setErrors(errorData);
+              } catch {
+                  setErrors({ general: error.message });
+              }
+          }
       }
   };
   return (

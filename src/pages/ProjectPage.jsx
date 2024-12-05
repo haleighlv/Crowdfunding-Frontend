@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import useProject from "../hooks/use-project";
 
 
@@ -24,13 +24,16 @@ if (error) {
             <h3>Pledges:</h3>
             <ul>
                 {project.pledges.map((pledgeData, key) => {
+                    console.log("Pledge data:", pledgeData);
                     return (
                         <li key={key}>
-                            {pledgeData.amount} from {pledgeData.supporter}
+                            ${pledgeData.amount} from {pledgeData.anonymous ? "Anonymous" : pledgeData.supporter.username || pledgeData.supporter}
+                            {pledgeData.comment && <p>Comment: {pledgeData.comment}</p>}
                         </li>
                     );
                 })}
             </ul>
+            <Link to={`/project/${id}/pledge`}>Make pledge</Link>
         </div>
     );
 }

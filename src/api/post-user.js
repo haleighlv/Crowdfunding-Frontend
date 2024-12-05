@@ -1,29 +1,40 @@
 async function postUser(username, password, email) {
     const url = `${import.meta.env.VITE_API_URL}/users/`;
-    const response = await fetch(url, {
-        method: "POST", // We need to tell the server that we are sending JSON data so we set the Content-Type header to application/json
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-            "username": username,
-            "password": password,
-            "email": email,
-        }),
-    });
-
-    if (!response.ok) {
-        const fallbackError = `Error trying to login`;
-
-        const data = await response.json().catch(() => {
-            throw new Error(fallbackError);
+    
+    try {
+        console.log("Making request to:", url);
+        console.log("Request data:", {
+            username,
+            password,
+            email
         });
 
-        const errorMessage = data?.detail ?? fallbackError;
-        throw new Error(errorMessage);
-    }
+        const response = await fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                "username": username,
+                "password": password,
+                "email": email,
+            }),
+        });
 
-    return await response.json();
+        const responseData = await response.json();
+        
+        console.log("Response status:", response.status);
+        console.log("Response data:", responseData);
+
+        if (!response.ok) {
+            throw new Error(JSON.stringify(responseData));
+        }
+
+        return responseData;
+    } catch (error) {
+        console.error("Error details:", error);
+        throw error;
+    }
 }
 
 export default postUser;
