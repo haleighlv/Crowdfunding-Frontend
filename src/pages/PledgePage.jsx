@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import useProject from "../hooks/use-project";
+import NavBar from "../components/NavBar";
 
 function PledgePage() {
     const { id } = useParams();
@@ -93,46 +94,49 @@ function PledgePage() {
     }
 
     return (
-        <div>
-            <h2>Make a Pledge to {project.title}</h2>
-            {submitError && <p style={{ color: "red" }}>{submitError}</p>}
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label htmlFor="amount">Amount:</label>
-                    <input
-                        type="number"
-                        id="amount"
-                        name="amount"
-                        min="1"
-                        value={formData.amount}
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
-                <div>
-                    <label htmlFor="comment">Comment:</label>
-                    <textarea
-                        id="comment"
-                        name="comment"
-                        value={formData.comment}
-                        onChange={handleChange}
-                    />
-                </div>
-                <div>
-                    <label>
+        <div className="page-container">
+            <NavBar />
+            <div className="pledge-container" style={{ paddingTop: "80px" }}>
+                <h1>Make a Pledge</h1>
+                {submitError && <p style={{ color: "red" }}>{submitError}</p>}
+                <form onSubmit={handleSubmit}>
+                    <div>
+                        <label htmlFor="amount">Amount:</label>
                         <input
-                            type="checkbox"
-                            name="anonymous"
-                            checked={formData.anonymous}
+                            type="number"
+                            id="amount"
+                            name="amount"
+                            min="1"
+                            value={formData.amount}
+                            onChange={handleChange}
+                            required
+                        />
+                    </div>
+                    <div>
+                        <label htmlFor="comment">Comment:</label>
+                        <textarea
+                            id="comment"
+                            name="comment"
+                            value={formData.comment}
                             onChange={handleChange}
                         />
-                        Make pledge anonymous
-                    </label>
-                </div>
-                <button type="submit" disabled={isSubmitting}>
-                    {isSubmitting ? "Submitting..." : "Submit Pledge"}
-                </button>
-            </form>
+                    </div>
+                    <div>
+                        <label>
+                            <input
+                                type="checkbox"
+                                name="anonymous"
+                                checked={formData.anonymous}
+                                onChange={handleChange}
+                            />
+                            Make pledge anonymous
+                        </label>
+                    </div>
+                    <button type="submit" disabled={isSubmitting}>
+                        {isSubmitting ? "Submitting..." : "Submit Pledge"}
+                    </button>
+                </form>
+            </div>
         </div>
     );
 }

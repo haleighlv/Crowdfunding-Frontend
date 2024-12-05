@@ -1,35 +1,59 @@
-import useProjects from "../hooks/use-projects";
-import ProjectCard from "../components/ProjectCard";
-import "../pages/HomePage.css";
+import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import NavBar from "../components/NavBar";
+import "./HomePage.css";
 
 function HomePage() {
-    const { projects, isLoading, error } = useProjects();
-if (isLoading) {
-    return (<p>loading...</p>)
-}
+    const [projects, setProjects] = useState([]);
 
-if (error) {
-    return (<p>{error.message}</p>)
-}
-    
+    useEffect(() => {
+        const fetchProjects = async () => {
+            try {
+                const response = await fetch(`${import.meta.env.VITE_API_URL}/projects/`);
+                const data = await response.json();
+                setProjects(data);
+            } catch (error) {
+                console.error("Error fetching projects:", error);
+            }
+        };
+
+        fetchProjects();
+    }, []);
+
     return (
-        <div className="home-container">
-            <div className="home-hero">
-            <h1 className="home-heading">Give someone a handup</h1>
-                <p className="home-description">Supporting each other to access mental health care</p>
-                <button><a href="src/pages/CreateProjectPage.jsx">Get started</a></button>
-                <button>Learn more</button>
-            </div>
-            <div className="project-container">
-                <h2 className="project-heading">Current Projects</h2>
-            <div id="project-list">
-                {projects.map((projectData, key) => {
-                    return <ProjectCard key={key} projectData={projectData} />;
-            })}
+        <div className="page-container">
+            <NavBar />
+            <main className="home-container">
+                <div className="home-hero">
+                    <h1>Welcome to HandUp</h1>
+                    <Link to="/signup">
+                        <button>Get Started</button>
+                    </Link>
                 </div>
-            </div>
+                <div className="project-container">
+                    <h2>Featured Projects</h2>
+                    <div id="project-list">
+                        {projects.map((project) => (
+                            <div key={project.id} className="project-card">
+                                <Link to={`/project/${project.id}`}>
+                                    {project.image && (
+                                        <img 
+                                            src={project.image} 
+                                            alt={project.title}
+                                            className="project-image"
+                                        />
+                                    )}
+                                    <h3>{project.title}</h3>
+                                    <p>{project.description}</p>
+                                    <p>Goal: ${project.goal.toLocaleString()}</p>
+                                </Link>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </main>
         </div>
-    )
-};
+    );
+}
 
 export default HomePage;

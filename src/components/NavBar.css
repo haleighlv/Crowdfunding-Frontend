@@ -1,67 +1,72 @@
 .navbar {
-    
-    width: 100%;
-    background-color: #E8B4B8;
-    color: black;
-    padding: 10px 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for separation */
-    z-index: 1000;
-    display: flex;
-    justify-content: space-between; /* Space out logo and links */
-    align-items: center; /* Center vertically */
-    font-family: Arial, Helvetica, sans-serif;
-    
+  width: 100%;
+  background-color: #E8B4B8;
+  padding: 20px 40px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: Arial, Helvetica, sans-serif;
+  position: fixed;
+  top: 0;
+  left: 0;
 }
 
 .navbar-logo {
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: white;
+  font-size: 2rem;
+  font-weight: bold;
+  color: #67595E;
+  text-decoration: none;
 }
 
 .navbar-links {
-    display: flex;
-    gap: 15px; /* Even spacing between links */
-    margin-right: 10px; /* Slight margin from the right */
+  display: flex;
+  gap: 35px;
 }
 
 .navbar-links a {
-    text-decoration: none;
-    color: white;
-    font-size: 1rem;
-    font-weight: bold;
+  text-decoration: none;
+  color: #67595E;
+  font-size: 1.2rem;
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: 4px;
 }
 
 .navbar-links a:hover {
-    color: rgb(98, 98, 138);
+  color: #EED6D3;
+  background-color: rgba(103, 89, 94, 0.1);
 }
 
-.navbar-toggle {
-    display: none; /* Hidden on larger screens */
-    font-size: 1.5rem;
-    cursor: pointer;
-    color: black;
+.navbar-links a.active {
+  color: #EED6D3;
+  background-color: rgba(103, 89, 94, 0.2);
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
-    .navbar-links {
-        display: none; /* Hide links by default */
-        flex-direction: column;
-        position: absolute;
-        top: 100%; /* Push links below navbar */
-        right: 0;
-        background-color: navy;
-        width: 100%;
-        padding: 10px 0;
-        z-index: 999; /* Ensure it's above other content */
-    }
+  .navbar-links {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background-color: #e8b4b8;
+    width: 100%;
+    padding: 20px;
+    text-align: center;
+    gap: 20px;
+  }
 
-    .navbar-links.open {
-        display: flex; /* Show links when the hamburger menu is open */
-    }
+  .navbar-links.open {
+    display: flex;
+  }
 
-    .navbar-toggle {
-        display: block; /* Show hamburger on smaller screens */
-    }
+  .navbar-toggle {
+    display: block;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #67595e;
+  }
 }

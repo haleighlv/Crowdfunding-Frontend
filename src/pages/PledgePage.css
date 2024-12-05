@@ -1,0 +1,38 @@
+.pledge-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.pledge-container form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.pledge-container form div {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.pledge-container input[type="number"],
+.pledge-container input[type="text"] {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.pledge-container button {
+    padding: 10px;
+    background-color: #E8B4B8;
+    color: #67595E;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.pledge-container button:hover {
+    background-color: #d9a1a6;
+} 

@@ -1,37 +1,38 @@
-import { Link, Outlet } from "react-router-dom";
-import { useAuth } from "../hooks/use-auth.js";
+import { Link, useLocation } from "react-router-dom";
 import "./NavBar.css";
 
 function NavBar() {
-  const {auth, setAuth} = useAuth();
+    const location = useLocation();
+    const isLoggedIn = window.localStorage.getItem("token") !== null;
 
-  const handleLogout = () => {
-    window.localStorage.removeItem("token");
-    setAuth({ token: null });
-  };
-  return (
-    <div>
-      <header className="navbar">
-      <nav>
-        <Link to="/">Home</Link>
-        {auth.token ? (
-          <div>
-            <Link to="/create-project">Create project</Link>
-            <Link to="/" onClick={handleLogout}>
-              Log Out
+    return (
+        <nav className="navbar">
+            <Link to="/" className="navbar-logo">
+                HandUp
             </Link>
-          </div>
-          ) : (
-          <div>
-              <Link to="/login">Login</Link>
-              <Link to="/signup">Sign up</Link>
-          </div>
-        )}
+            <div className="navbar-links">
+                {isLoggedIn ? (
+                    <>
+                        <Link to="/" className={location.pathname === "/" ? "active" : ""}>
+                            Home
+                        </Link>
+                        <Link to="/logout" className={location.pathname === "/logout" ? "active" : ""}>
+                            Log Out
+                        </Link>
+                    </>
+                ) : (
+                    <>
+                        <Link to="/login" className={location.pathname === "/login" ? "active" : ""}>
+                            Login
+                        </Link>
+                        <Link to="/signup" className={location.pathname === "/signup" ? "active" : ""}>
+                            Sign Up
+                        </Link>
+                    </>
+                )}
+            </div>
         </nav>
-        </header>
-      <Outlet />
-    </div>
-  );
+    );
 }
 
 export default NavBar;
