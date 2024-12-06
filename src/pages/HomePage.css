@@ -19,7 +19,7 @@
     font-weight: bold;
     padding: 100px 50px;
     background-color: #e8b4b8;
-    background-image: url("../images/background.jpg");
+    background-image: url("/background.jpg");
     background-size: cover;
     width: 100%;
 }
