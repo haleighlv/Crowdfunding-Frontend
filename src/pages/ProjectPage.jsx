@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import useProject from "../hooks/use-project";
 import NavBar from "../components/NavBar";
+import "./ProjectPage.css";
 
 function ProjectPage() {
     const { id } = useParams();
@@ -80,71 +81,97 @@ function ProjectPage() {
     }
     
     return (
-        <div>
+        <div className="page-container">
             <NavBar />
-            <h2>{project.title}</h2>
-            {project.image && (
-                <img 
-                    src={project.image} 
-                    alt={project.title}
-                    style={{
-                        maxWidth: '100%',
-                        height: 'auto',
-                        marginBottom: '20px'
-                    }}
-                />
-            )}
-            <h3>Created at: {formatDate(project.date_created)}</h3>
-            <p>{project.description}</p>
-            <h3>Status: {project.is_open ? "Open" : "Closed"}</h3>
-            
-            {/* Progress section */}
-            <div>
-                <h3>Total Pledged: ${formatAmount(project.pledges ? calculateTotal(project.pledges) : 0)}</h3>
-                <h3>Goal: ${formatAmount(project.goal)}</h3>
-                <h3>Still Needed: ${formatAmount(calculateRemaining(
-                    project.pledges ? calculateTotal(project.pledges) : 0,
-                    project.goal
-                ))}</h3>
-                
-                {/* Progress bar */}
-                <div style={{ 
-                    width: '100%', 
-                    backgroundColor: '#e0e0e0', 
-                    borderRadius: '8px',
-                    margin: '10px 0'
-                }}>
-                    <div style={{
-                        width: `${calculateProgress(
-                            project.pledges ? calculateTotal(project.pledges) : 0,
-                            project.goal
-                        )}%`,
-                        backgroundColor: '#4CAF50',
-                        height: '20px',
-                        borderRadius: '8px',
-                        transition: 'width 0.5s ease-in-out'
-                    }}></div>
+            <div className="project-page">
+                <div className="project-header">
+                    <h1>{project.title}</h1>
+                    <p className="project-date">Created: {formatDate(project.date_created)}</p>
                 </div>
-                <p>{calculateProgress(
-                    project.pledges ? calculateTotal(project.pledges) : 0,
-                    project.goal
-                ).toFixed(1)}% funded</p>
-            </div>
 
-            <h3>Pledges:</h3>
-            <ul>
-                {project.pledges.map((pledgeData, key) => {
-                    const user = users[pledgeData.supporter];
-                    return (
-                        <li key={key}>
-                            ${formatAmount(pledgeData.amount)} from {pledgeData.anonymous ? "Anonymous" : 
-                                (user ? user.username : `Loading user...`)}
-                            {pledgeData.comment && <p>Comment: {pledgeData.comment}</p>}
-                        </li>
-                    );
-                })}
-            </ul>
-            <Link to={`/project/${id}/pledge`}>Make pledge</Link>
+                <div className="project-content">
+                    <div className="project-main">
+                        {project.image && (
+                            <img 
+                                src={project.image} 
+                                alt={project.title}
+                                className="project-image"
+                            />
+                        )}
+                        <div className="project-description">
+                            <h2>{project.description}</h2>
+                        </div>
+                    </div>
+
+                    <div className="project-stats">
+                        <div className="stats-card">
+                            <h3>Campaign Status</h3>
+                            <p className="status">{project.is_open ? "Open" : "Closed"}</p>
+                            
+                            <div className="funding-stats">
+                                <div className="stat-item">
+                                    <h4>Total Pledged</h4>
+                                    <p>${formatAmount(project.pledges ? calculateTotal(project.pledges) : 0)}</p>
+                                </div>
+                                <div className="stat-item">
+                                    <h4>Goal</h4>
+                                    <p>${formatAmount(project.goal)}</p>
+                                </div>
+                                <div className="stat-item">
+                                    <h4>Still Needed</h4>
+                                    <p>${formatAmount(calculateRemaining(
+                                        project.pledges ? calculateTotal(project.pledges) : 0,
+                                        project.goal
+                                    ))}</p>
+                                </div>
+                            </div>
+
+                            <div className="progress-container">
+                                <div className="progress-bar">
+                                    <div 
+                                        className="progress-fill"
+                                        style={{
+                                            width: `${calculateProgress(
+                                                project.pledges ? calculateTotal(project.pledges) : 0,
+                                                project.goal
+                                            )}%`
+                                        }}
+                                    ></div>
+                                </div>
+                                <p className="progress-text">
+                                    {calculateProgress(
+                                        project.pledges ? calculateTotal(project.pledges) : 0,
+                                        project.goal
+                                    ).toFixed(1)}% funded
+                                </p>
+                            </div>
+
+                            <Link to={`/project/${id}/pledge`} className="pledge-button">
+                                Make a Pledge
+                            </Link>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="pledges-section">
+                    <h2>Pledges</h2>
+                    <div className="pledges-list">
+                        {project.pledges.map((pledgeData, key) => {
+                            const user = users[pledgeData.supporter];
+                            return (
+                                <div key={key} className="pledge-card">
+                                    <p className="pledge-amount">${formatAmount(pledgeData.amount)}</p>
+                                    <p className="pledge-user">from {pledgeData.anonymous ? "Anonymous" : 
+                                        (user ? user.username : "Loading user...")}</p>
+                                    {pledgeData.comment && (
+                                        <p className="pledge-comment">{pledgeData.comment}</p>
+                                    )}
+                                </div>
+                            );
+                        })}
+                    </div>
+                </div>
+            </div>
         </div>
     );
 }

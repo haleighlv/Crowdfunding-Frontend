@@ -1,16 +1,26 @@
 import { Link, useLocation } from "react-router-dom";
+import { useState } from "react";
 import "./NavBar.css";
 
 function NavBar() {
     const location = useLocation();
     const isLoggedIn = window.localStorage.getItem("token") !== null;
+    const [isOpen, setIsOpen] = useState(false);
 
     return (
         <nav className="navbar">
             <Link to="/" className="navbar-logo">
                 HandUp
             </Link>
-            <div className="navbar-links">
+            <button 
+                className="hamburger"
+                onClick={() => setIsOpen(!isOpen)}
+            >
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <div className={`navbar-links ${isOpen ? 'open' : ''}`}>
                 {isLoggedIn ? (
                     <>
                         <Link to="/" className={location.pathname === "/" ? "active" : ""}>

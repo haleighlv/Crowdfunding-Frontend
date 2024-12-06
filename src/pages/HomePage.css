@@ -23,43 +23,96 @@
     background-size: cover;
     width: 100%;
 }
+.home-hero button {
+    background-color: #67595e;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-top: 20px;
+}
+
+.button:hover {
+    background-color: #4d4246;
+}
+.button a {
+    text-decoration: none;
+    color: white;
+}
 
 .project-container {
     background-color: #eed6d3;
     width: 100%;
     padding: 40px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.project-container h2 {
+    color: #67595e;
+    padding: 20px;
+    margin: 2px;
 }
 
 #project-list {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-    padding: 0 40px;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    padding: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 90%;
+    box-sizing: border-box;
 }
 
-.home-hero h1 {
-  font-size: 2.5rem;
+.project-card {
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: transform 0.2s;
 }
 
-.home-hero button {
-  background-color: white;
-  border: none;
-  text-align: center;
-  padding: 15px;
-  margin: 10px;
-  font-weight: bold;
-  font-size: 16px;
-  border-radius: 4px;
-  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+.project-card:hover {
+    transform: translateY(-5px);
 }
 
-.home-hero button a {
-  text-decoration: none;
-  color: #e8b4b8;
+.project-card a {
+    text-decoration: none;
+    color: #67595e;
 }
 
-.project-container h2 {
-  padding: 20px;
-  color: #67595e;
-  margin: 2px;
+.project-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.project-card h3 {
+    margin: 15px;
+    font-size: 1.2rem;
+}
+
+.project-card p {
+    margin: 15px;
+    font-size: 0.9rem;
+}
+
+@media (max-width: 768px) {
+    #project-list {
+        padding: 15px;
+        width: 95%;
+    }
+}
+
+@media (max-width: 480px) {
+    #project-list {
+        grid-template-columns: 1fr;
+        width: 100%;
+        padding: 10px;
+    }
 }
