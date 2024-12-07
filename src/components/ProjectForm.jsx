@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import postProject from "../api/post-project.js";
 
 function ProjectForm() {
     const navigate = useNavigate();
@@ -9,44 +8,59 @@ function ProjectForm() {
         description: "",
         goal: "",
         image: "",
+        is_open: true,
     });
 
     const handleChange = (event) => {
-        const { id, value } = event.target;
+        const { id, value, type, checked } = event.target;
         setCredentials((prevCredentials) => ({
             ...prevCredentials,
-            [id]: value,
+            [id]: type === "checkbox" ? checked : value,
         }));
     };
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        if (credentials.title && credentials.description && credentials.goal && credentials.image) {
-            try {
-                // Check if user is logged in
-                const token = window.localStorage.getItem("token");
-                if (!token) {
-                    console.error("User not logged in");
-                    navigate("/login");
-                    return;
-                }
+        console.log("Form submitted", credentials);
 
-                // Log the data being sent
-                console.log("Sending project data:", credentials);
-                
-                const response = await postProject(
-                    credentials.title,
-                    credentials.description,
-                    credentials.goal,
-                    credentials.image,
-                );
-                
-                console.log("Project creation response:", response);
-                navigate("/");
-            } catch (error) {
-                console.error("Error creating project:", error.message);
-                // You might want to show this error to the user
+        try {
+            const token = window.localStorage.getItem("token");
+            if (!token) {
+                console.error("User not logged in");
+                navigate("/login");
+                return;
             }
+
+            // Make the API call directly
+            const response = await fetch(
+                `${import.meta.env.VITE_API_URL}/projects/`,
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Token ${token}`,
+                    },
+                    body: JSON.stringify({
+                        title: credentials.title,
+                        description: credentials.description,
+                        goal: Number(credentials.goal),
+                        image: credentials.image,
+                        is_open: credentials.is_open
+                    }),
+                }
+            );
+
+            const data = await response.json();
+            console.log("Server response:", data);
+
+            if (!response.ok) {
+                throw new Error(JSON.stringify(data));
+            }
+
+            navigate("/");
+
+        } catch (err) {
+            console.error("Error details:", err);
         }
     };
 
@@ -87,6 +101,17 @@ function ProjectForm() {
                     placeholder="Enter link to image"
                     onChange={handleChange}
                 />
+            </div>
+            <div className="form-item">
+                <label htmlFor="is_open">
+                    <input
+                        type="checkbox"
+                        id="is_open"
+                        checked={credentials.is_open}
+                        onChange={handleChange}
+                    />
+                    Project is Open
+                </label>
             </div>
             <button type="submit">Create Project</button>
         </form>

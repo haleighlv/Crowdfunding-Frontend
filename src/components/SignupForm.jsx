@@ -54,6 +54,7 @@ function SignupForm() {
               placeholder="Enter username"
               onChange={handleChange}
             />
+            {errors.username && <p className="error-message">{errors.username}</p>}
           </div>
 
           <div>
