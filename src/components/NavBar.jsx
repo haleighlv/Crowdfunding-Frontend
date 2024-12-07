@@ -26,6 +26,9 @@ function NavBar() {
                         <Link to="/" className={location.pathname === "/" ? "active" : ""}>
                             Home
                         </Link>
+                        <Link to="/create-project" className="nav-link">
+                            Create Project
+                        </Link>
                         <Link to="/logout" className={location.pathname === "/logout" ? "active" : ""}>
                             Log Out
                         </Link>

@@ -26,6 +26,7 @@ function HomePage() {
             <main className="home-container">
                 <div className="home-hero">
                     <h1>Welcome to HandUp</h1>
+                    <p>Supporting each other to access mental health care</p>
                     <Link to="/signup">
                         <button>Get Started</button>
                     </Link>

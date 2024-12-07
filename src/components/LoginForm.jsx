@@ -6,7 +6,7 @@ import { useAuth } from "../hooks/use-auth.js"
 
 function LoginForm() {
   const navigate = useNavigate();
-  const {auth, setAuth} = useAuth();
+  const { setAuth } = useAuth();
 
     const [credentials, setCredentials] = useState({
         username: "",
@@ -37,6 +37,7 @@ function LoginForm() {
   };
   return (
     <form>
+      <div className="login-form">
       <div>
         <label htmlFor="username">Username:</label>
               <input
@@ -55,7 +56,10 @@ function LoginForm() {
                   onChange={handleChange}
               />
       </div>
-      <button type="submit" onClick={handleSubmit}>Login</button>
+      </div>
+
+
+    <button type="submit" onClick={handleSubmit}>Login</button>
     </form>
   );
 }

@@ -1,11 +1,15 @@
 import NavBar from "../components/NavBar";
 import ProjectForm from "../components/ProjectForm";
+import "./CreateProjectPage.css";
 
 function CreateProjectPage() {
     return (
-        <div>
+        <div className="create-project-container">
             <NavBar />
-            <ProjectForm />
+            <div className="project-form">
+                <h1>Create Project</h1>
+                <ProjectForm />
+            </div>
         </div>
     );
 }

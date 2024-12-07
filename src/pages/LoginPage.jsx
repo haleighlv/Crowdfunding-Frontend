@@ -1,11 +1,15 @@
+import "./LoginPage.css";
 import LoginForm from "../components/LoginForm";
 import NavBar from "../components/NavBar";
 
 function LoginPage() {
     return (
-        <div>
+        <div className="login-container">
             <NavBar />
-            <LoginForm />
+            <div className="login-form">
+                <h1>Login</h1>
+                <LoginForm />
+            </div>
         </div>
     );
 }

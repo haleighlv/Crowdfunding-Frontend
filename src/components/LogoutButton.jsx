@@ -1,27 +1,26 @@
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../components/AuthProvider';
 
 function LogoutButton() {
     const navigate = useNavigate();
+    const { setAuth } = useAuth();
 
     const handleLogout = () => {
-        try {
-            // Clear any auth tokens/user data from localStorage
-            localStorage.removeItem('token');
-            localStorage.removeItem('user');
-            
-            // Reset any auth state if using context/redux
-            // setAuth(null); // if using context
-            
-            // Redirect to home or login page
-            navigate('/login');
-        } catch (error) {
-            console.error('Logout error:', error);
-        }
+        // Clear authentication
+        localStorage.removeItem('token');
+        
+        // Update auth context if you're using it
+        setAuth(null);
+        
+        // Redirect to login page
+        navigate('/login', { replace: true });
     };
 
     return (
-        <button onClick={handleLogout}>
+        <button onClick={handleLogout} className="logout-button">
             Logout
         </button>
     );
-} 
+}
+
+export default LogoutButton; 
