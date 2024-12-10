@@ -3,11 +3,16 @@ import { useParams, Link } from "react-router-dom";
 import useProject from "../hooks/use-project";
 import NavBar from "../components/NavBar";
 import "./ProjectPage.css";
+import EditProjectForm from "../components/EditProjectForm";
+import DeleteProjectButton from "../components/DeleteProjectButton";
+import { useAuth } from "../hooks/use-auth";
 
 function ProjectPage() {
     const { id } = useParams();
     const { project, isLoading, error } = useProject(id);
     const [users, setUsers] = useState({});  // Store user details
+    const { auth } = useAuth();
+    const [isOwner, setIsOwner] = useState(false);
 
     // Format date to DD/MM/YYYY
     const formatDate = (dateString) => {
@@ -71,6 +76,20 @@ function ProjectPage() {
             });
         }
     }, [project, users]);
+
+    useEffect(() => {
+        async function fetchProject() {
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/projects/${id}`);
+            const data = await response.json();
+            setProject(data);
+
+            // Check if the current user is the owner or an admin
+            if (auth && (auth.userId === data.ownerId || auth.isAdmin)) {
+                setIsOwner(true);
+            }
+        }
+        fetchProject();
+    }, [id, auth]);
 
     if (isLoading) {
         return (<p>loading...</p>)
@@ -171,6 +190,13 @@ function ProjectPage() {
                         })}
                     </div>
                 </div>
+
+                {isOwner && (
+                    <>
+                        <EditProjectForm projectData={project} />
+                        <DeleteProjectButton />
+                    </>
+                )}
             </div>
         </div>
     );
