@@ -55,6 +55,12 @@ function EditProjectForm() {
 
     return (
         <form onSubmit={handleSubmit}>
+            <input
+                type="text"
+                id="title"
+                value={projectData.title}
+                onChange={handleChange}
+            />
             {/* Form fields similar to ProjectForm */}
             <button type="submit">Update Project</button>
         </form>

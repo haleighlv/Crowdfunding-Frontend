@@ -1,11 +1,17 @@
 import { Link, useLocation } from "react-router-dom";
 import { useState } from "react";
+
 import "./NavBar.css";
+
+
+
 
 function NavBar() {
     const location = useLocation();
     const isLoggedIn = window.localStorage.getItem("token") !== null;
     const [isOpen, setIsOpen] = useState(false);
+    
+
 
     return (
         <nav className="navbar">
@@ -44,8 +50,11 @@ function NavBar() {
                     </>
                 )}
             </div>
+
         </nav>
     );
 }
+
+
 
 export default NavBar;

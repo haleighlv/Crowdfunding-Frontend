@@ -9,6 +9,7 @@ import SignupPage from "./pages/SignupPage.jsx";
 import PledgePage from "./pages/PledgePage.jsx"
 import CreateProjectPage from "./pages/CreateProjectPage.jsx";
 import LogoutPage from "./pages/LogoutPage.jsx";
+import EditProjectPage from "./pages/EditProjectPage.jsx";
 
 import { AuthProvider } from "./components/AuthProvider.jsx";
 
@@ -40,6 +41,10 @@ const router = createBrowserRouter([
     {
         path: "/logout",
         element: <LogoutPage />,
+    },
+    {
+        path: "/project/:id/edit",
+        element: <EditProjectPage />,
     },
 ]);
 
