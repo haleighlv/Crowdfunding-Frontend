@@ -1,17 +1,35 @@
 import { Link, useLocation } from "react-router-dom";
-import { useState } from "react";
-
+import { useState, useEffect } from "react";
+import postLogin from "../api/post-login";
 import "./NavBar.css";
-
-
-
 
 function NavBar() {
     const location = useLocation();
     const isLoggedIn = window.localStorage.getItem("token") !== null;
     const [isOpen, setIsOpen] = useState(false);
-    
+    const [userInitials, setUserInitials] = useState("??");
 
+    useEffect(() => {
+        const fetchUserData = async () => {
+            if (isLoggedIn) {
+                try {
+                    const token = window.localStorage.getItem("token");
+                    const userData = await postLogin(token);
+                    
+                    if (userData && userData.username) {
+                        const initials = userData.username.slice(0, 2).toUpperCase();
+                        console.log("Setting initials to:", initials);
+                        setUserInitials(initials);
+                    }
+                } catch (err) {
+                    console.error("Error fetching user:", err);
+                    setUserInitials("??");
+                }
+            }
+        };
+
+        fetchUserData();
+    }, [isLoggedIn]);
 
     return (
         <nav className="navbar">
@@ -29,32 +47,22 @@ function NavBar() {
             <div className={`navbar-links ${isOpen ? 'open' : ''}`}>
                 {isLoggedIn ? (
                     <>
-                        <Link to="/" className={location.pathname === "/" ? "active" : ""}>
-                            Home
-                        </Link>
-                        <Link to="/create-project" className="nav-link">
-                            Create Project
-                        </Link>
-                        <Link to="/logout" className={location.pathname === "/logout" ? "active" : ""}>
-                            Log Out
-                        </Link>
+                        <Link to="/">Home</Link>
+                        <Link to="/create-project">Create Project</Link>
+                        <Link to="/logout">Log Out</Link>
+                        <div className="user-initials">
+                            {userInitials}
+                        </div>
                     </>
                 ) : (
                     <>
-                        <Link to="/login" className={location.pathname === "/login" ? "active" : ""}>
-                            Login
-                        </Link>
-                        <Link to="/signup" className={location.pathname === "/signup" ? "active" : ""}>
-                            Sign Up
-                        </Link>
+                        <Link to="/login">Login</Link>
+                        <Link to="/signup">Sign Up</Link>
                     </>
                 )}
             </div>
-
         </nav>
     );
 }
-
-
 
 export default NavBar;

@@ -1,40 +1,24 @@
-async function postUser(username, password, email) {
-    const url = `${import.meta.env.VITE_API_URL}/users/`;
+async function postUser(token) {
+    const url = `${import.meta.env.VITE_API_URL}/api/v1/users/me/`;
     
-    try {
-        console.log("Making request to:", url);
-        console.log("Request data:", {
-            username,
-            password,
-            email
+    const response = await fetch(url, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Token ${token}`,
+        },
+    });
+
+    if (!response.ok) {
+        const fallbackError = `Error fetching user data with status: ${response.status}`;
+        const data = await response.json().catch(() => {
+            throw new Error(fallbackError);
         });
-
-        const response = await fetch(url, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                "username": username,
-                "password": password,
-                "email": email,
-            }),
-        });
-
-        const responseData = await response.json();
-        
-        console.log("Response status:", response.status);
-        console.log("Response data:", responseData);
-
-        if (!response.ok) {
-            throw new Error(JSON.stringify(responseData));
-        }
-
-        return responseData;
-    } catch (error) {
-        console.error("Error details:", error);
-        throw error;
+        const errorMessage = data?.detail ?? fallbackError;
+        throw new Error(errorMessage);
     }
+
+    return await response.json();
 }
 
 export default postUser;

@@ -8,6 +8,7 @@ function ProjectPage() {
     const { id } = useParams();
     const { project, isLoading, error } = useProject(id);
     const [users, setUsers] = useState({});  // Store user details
+    const [ownerUsername, setOwnerUsername] = useState("Loading..."); // Add this line
 
     // Format date to DD/MM/YYYY
     const formatDate = (dateString) => {
@@ -72,6 +73,34 @@ function ProjectPage() {
         }
     }, [project, users]);
 
+    // Add this new useEffect for fetching owner details
+    useEffect(() => {
+        if (project && project.owner) {
+            const fetchOwner = async () => {
+                try {
+                    const token = window.localStorage.getItem("token");
+                    const response = await fetch(
+                        `${import.meta.env.VITE_API_URL}/users/${project.owner}/`,
+                        {
+                            headers: {
+                                "Content-Type": "application/json",
+                                "Authorization": `Token ${token}`
+                            }
+                        }
+                    );
+                    const data = await response.json();
+                    if (data && data.username) {
+                        setOwnerUsername(data.username);
+                    }
+                } catch (err) {
+                    console.error("Error fetching owner:", err);
+                    setOwnerUsername("Unknown");
+                }
+            };
+            fetchOwner();
+        }
+    }, [project]);
+
     if (isLoading) {
         return (<p>loading...</p>)
     }
@@ -87,6 +116,7 @@ function ProjectPage() {
                 <div className="project-header">
                     <h1>{project.title}</h1>
                     <p className="project-date">Created: {formatDate(project.date_created)}</p>
+                    <p className="project-owner">Created by: {ownerUsername}</p>
                 </div>
 
                 <div className="project-content">

@@ -189,4 +189,10 @@
     .project-header h1 {
         font-size: 2rem;
     }
+}
+
+.project-owner {
+    color: #666;
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
 } 

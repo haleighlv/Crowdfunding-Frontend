@@ -1,6 +1,6 @@
 .navbar {
   width: 100%;
-  background-color: #E8B4B8;
+  background-color: #e8b4b8;
   padding: 20px 40px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   z-index: 1000;
@@ -22,7 +22,7 @@
 
 .navbar-links {
   display: flex;
-  gap: 35px;
+  align-items: center;
 }
 
 .navbar-links a {
@@ -81,4 +81,19 @@
   .navbar-links.open {
     display: flex;
   }
+}
+
+.user-initials {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  background-color: #ffffff;
+  color: #e8b4b8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  margin-left: 15px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 12px;
 }
