@@ -55,9 +55,9 @@
     font-size: 1rem;
 }
 
-button[type="submit"] {
+.login-form button[type="submit"] {
     width: 100%;
-    background-color: #67595e;
+    background-color: #67595e !important;
     color: white;
     padding: 14px;
     border: none;
@@ -69,8 +69,8 @@ button[type="submit"] {
     font-weight: bold;
 }
 
-button[type="submit"]:hover {
-    background-color: #4d4246;
+.login-form button[type="submit"]:hover {
+    background-color: #4d4246 !important;
 }
 
 @media (max-width: 768px) {

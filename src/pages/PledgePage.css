@@ -101,7 +101,7 @@
 }
 .pledge-button {
     width: 100%;
-    background-color: #67595e;
+    background-color: #685a5f !important;
     color: white;
     padding: 14px;
     border: none;
@@ -113,7 +113,7 @@
 }
 
 .pledge-button:hover {
-    background-color: #4d4246;
+    background-color: #834553;
 }
 
 .error-message {
@@ -139,4 +139,13 @@
     .pledge-form {
         padding: 30px 20px;
     }
+} 
+
+.pledge-form .checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0;
+    padding-right: 10px;
+    margin: 15px 0;
 } 
