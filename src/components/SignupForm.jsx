@@ -6,16 +6,16 @@ import postUser from "../api/post-user.js";
 function SignupForm() {
   const navigate = useNavigate();
   const [errors, setErrors] = useState({});
-  const [credentials, setCredentials] = useState({
+  const [formData, setFormData] = useState({
     username: "",
-    password: "",
     email: "",
+    password: "",
   });
 
   const handleChange = (event) => {
     const { id, value } = event.target;
-    setCredentials((prevCredentials) => ({
-      ...prevCredentials,
+    setFormData((prevFormData) => ({
+      ...prevFormData,
       [id]: value,
     }));
   };
@@ -23,21 +23,28 @@ function SignupForm() {
     event.preventDefault();
     setErrors({});
 
-    if (credentials.username && credentials.password && credentials.email) {
+    if (formData.username && formData.password && formData.email) {
       try {
-        await postUser(
-          credentials.username,
-          credentials.password,
-          credentials.email
+        const response = await fetch(
+          `${import.meta.env.VITE_API_URL}/users/`,
+          {
+            method: "post",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(formData),
+          }
         );
-        navigate("/login");
-      } catch (error) {
-        try {
-          const errorData = JSON.parse(error.message);
-          setErrors(errorData);
-        } catch {
-          setErrors({ general: error.message });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
         }
+
+        const data = await response.json();
+        console.log("Signup successful:", data);
+        navigate("/login");
+      } catch (err) {
+        console.error("Error during signup:", err);
       }
     }
   };
