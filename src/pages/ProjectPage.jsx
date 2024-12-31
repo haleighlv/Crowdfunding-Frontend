@@ -3,14 +3,43 @@ import { useParams, Link } from "react-router-dom";
 import useProject from "../hooks/use-project";
 import NavBar from "../components/NavBar";
 import "./ProjectPage.css";
-import { useAuth } from "../hooks/use-auth";
 
 function ProjectPage() {
   const { id } = useParams();
   const { project, isLoading, error } = useProject(id);
-  const [users, setUsers] = useState({});
-  const { auth } = useAuth();
-  const [ownerUsername, setOwnerUsername] = useState("Loading...");
+  const [pledgeUsers, setPledgeUsers] = useState({});
+
+  // Fetch usernames for pledges
+  useEffect(() => {
+    const fetchUsernames = async () => {
+      if (project?.pledges) {
+        const token = window.localStorage.getItem("token");
+        for (const pledge of project.pledges) {
+          if (!pledge.anonymous) {
+            try {
+              const response = await fetch(
+                `${import.meta.env.VITE_API_URL}/users/${pledge.supporter}/`,
+                {
+                  headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Token ${token}`,
+                  },
+                }
+              );
+              const data = await response.json();
+              setPledgeUsers(prev => ({
+                ...prev,
+                [pledge.supporter]: data.username
+              }));
+            } catch (err) {
+              console.error("Error fetching username:", err);
+            }
+          }
+        }
+      }
+    };
+    fetchUsernames();
+  }, [project]);
 
   // Debug log for project data
   useEffect(() => {
@@ -45,93 +74,22 @@ function ProjectPage() {
     return Math.min((total / goal) * 100, 100);
   };
 
-  // Fetch user details for pledges only
-  useEffect(() => {
-    const fetchUser = async (userId) => {
-      console.log("Attempting to fetch user:", userId);
-      try {
-        const token = window.localStorage.getItem("token");
-        if (!token) {
-          console.error("No token found");
-          return;
-        }
-
-        const response = await fetch(
-          `${import.meta.env.VITE_API_URL}/users/${userId}/`,
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Token ${token}`,
-            },
-          }
-        );
-
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        const data = await response.json();
-        if (data && data.username) {
-          setUsers((prevUsers) => ({
-            ...prevUsers,
-            [userId]: data,
-          }));
-        }
-      } catch (err) {
-        console.error(`Error fetching user ${userId}:`, err);
-      }
-    };
-
-    if (project) {
-      // Only fetch pledge
-    }
-  }, [project]);
-
-  // Fetch project owner's username with token
-  useEffect(() => {
-    const fetchOwner = async () => {
-      if (project?.owner) {
-        try {
-          const token = window.localStorage.getItem("token");
-          const response = await fetch(
-            `${import.meta.env.VITE_API_URL}/projects/${id}`,
-            {
-              headers: {
-                "Content-Type": "application/json",
-                Authorization: `Token ${token}`,
-              },
-            }
-          );
-
-          const data = await response.json();
-          if (data && data.owner_username) {
-            setOwnerUsername(data.owner_username);
-          } else {
-            setOwnerUsername("Unknown");
-          }
-        } catch (err) {
-          setOwnerUsername("Unknown");
-        }
-      }
-    };
-
-    if (project) {
-      fetchOwner();
-    }
-  }, [project]);
-
   // Debug log to see project data
   useEffect(() => {
     console.log("Project data:", project);
   }, [project]);
 
   if (isLoading) {
-    return <p>loading...</p>;
+    return <p>Loading...</p>;
   }
 
   if (error) {
     return <p>{error.message}</p>;
+  }
+
+  // Ensure project exists before rendering
+  if (!project) {
+    return <p>Project not found</p>;
   }
 
   return (
@@ -141,10 +99,7 @@ function ProjectPage() {
         <div className="project-header">
           <h1>{project.title}</h1>
           <p className="project-date">
-            Created: {formatDate(project.date_created)}
-          </p>
-          <p className="project-owner">
-            Created by: {project?.owner_username || "Unknown"}
+            Created: {project.date_created ? formatDate(project.date_created) : "Loading..."}
           </p>
         </div>
 
@@ -226,27 +181,19 @@ function ProjectPage() {
         <div className="pledges-section">
           <h2>Pledges</h2>
           <div className="pledges-list">
-            {project.pledges.map((pledgeData, key) => {
-              const user = users[pledgeData.supporter];
-              return (
-                <div key={key} className="pledge-card">
-                  <p className="pledge-amount">
-                    ${formatAmount(pledgeData.amount)}
-                  </p>
-                  <p className="pledge-user">
-                    from{" "}
-                    {pledgeData.anonymous
-                      ? "Anonymous"
-                      : user
-                      ? user.username
-                      : "Loading user..."}
-                  </p>
-                  {pledgeData.comment && (
-                    <p className="pledge-comment">{pledgeData.comment}</p>
-                  )}
-                </div>
-              );
-            })}
+            {project.pledges.map((pledgeData, key) => (
+              <div key={key} className="pledge-card">
+                <p className="pledge-amount">
+                  ${formatAmount(pledgeData.amount)}
+                </p>
+                <p className="pledge-user">
+                  from {pledgeData.anonymous ? "Anonymous" : pledgeUsers[pledgeData.supporter] || "Loading..."}
+                </p>
+                {pledgeData.comment && (
+                  <p className="pledge-comment">{pledgeData.comment}</p>
+                )}
+              </div>
+            ))}
           </div>
         </div>
       </div>
