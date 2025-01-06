@@ -3,48 +3,30 @@ import { useParams, Link } from "react-router-dom";
 import useProject from "../hooks/use-project";
 import NavBar from "../components/NavBar";
 import "./ProjectPage.css";
+import { useAuth } from "../hooks/use-auth";
 
 function ProjectPage() {
+  const { auth } = useAuth();
   const { id } = useParams();
   const { project, isLoading, error } = useProject(id);
   const [pledgeUsers, setPledgeUsers] = useState({});
 
   // Fetch usernames for pledges
   useEffect(() => {
-    const fetchUsernames = async () => {
-      if (project?.pledges) {
-        const token = window.localStorage.getItem("token");
-        for (const pledge of project.pledges) {
-          if (!pledge.anonymous) {
-            try {
-              const response = await fetch(
-                `${import.meta.env.VITE_API_URL}/users/${pledge.supporter}/`,
-                {
-                  headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Token ${token}`,
-                  },
-                }
-              );
-              const data = await response.json();
-              setPledgeUsers(prev => ({
-                ...prev,
-                [pledge.supporter]: data.username
-              }));
-            } catch (err) {
-              console.error("Error fetching username:", err);
-            }
-          }
-        }
-      }
-    };
-    fetchUsernames();
-  }, [project]);
+    if (project?.pledges) {
+      // Log a sample pledge to see its structure
+      console.log("Sample pledge data:", project.pledges[0]);
 
-  // Debug log for project data
-  useEffect(() => {
-    console.log("Current project:", project);
-    console.log("Project owner ID:", project?.owner);
+      // Try to get usernames directly from pledge data
+      const userMap = {};
+      project.pledges.forEach((pledge) => {
+        if (!pledge.anonymous && pledge.supporter_username) {
+          userMap[pledge.supporter] = pledge.supporter_username;
+        }
+      });
+
+      setPledgeUsers(userMap);
+    }
   }, [project]);
 
   // Format date to DD/MM/YYYY
@@ -99,7 +81,10 @@ function ProjectPage() {
         <div className="project-header">
           <h1>{project.title}</h1>
           <p className="project-date">
-            Created: {project.date_created ? formatDate(project.date_created) : "Loading..."}
+            Created:{" "}
+            {project.date_created
+              ? formatDate(project.date_created)
+              : "Loading..."}
           </p>
         </div>
 
@@ -181,19 +166,26 @@ function ProjectPage() {
         <div className="pledges-section">
           <h2>Pledges</h2>
           <div className="pledges-list">
-            {project.pledges.map((pledgeData, key) => (
-              <div key={key} className="pledge-card">
-                <p className="pledge-amount">
-                  ${formatAmount(pledgeData.amount)}
-                </p>
-                <p className="pledge-user">
-                  from {pledgeData.anonymous ? "Anonymous" : pledgeUsers[pledgeData.supporter] || "Loading..."}
-                </p>
-                {pledgeData.comment && (
-                  <p className="pledge-comment">{pledgeData.comment}</p>
-                )}
-              </div>
-            ))}
+            {project.pledges.map((pledgeData, key) => {
+              console.log("Full pledge data:", pledgeData); // Debug log
+
+              return (
+                <div key={key} className="pledge-card">
+                  <p className="pledge-amount">
+                    ${formatAmount(pledgeData.amount)}
+                  </p>
+                  <p className="pledge-user">
+                    from{" "}
+                    {pledgeData.anonymous
+                      ? "Anonymous"
+                      : pledgeData.supporter_name || "User"}
+                  </p>
+                  {pledgeData.comment && (
+                    <p className="pledge-comment">{pledgeData.comment}</p>
+                  )}
+                </div>
+              );
+            })}
           </div>
         </div>
       </div>

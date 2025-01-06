@@ -1,7 +1,7 @@
 .navbar {
   width: 100%;
-  background-color: #e8b4b8;
-  padding: 20px 40px;
+  background-color: #E8B4B8;
+  padding: 0;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   z-index: 1000;
   display: flex;
@@ -13,11 +13,9 @@
   left: 0;
 }
 
-.navbar-logo {
-  font-size: 2rem;
-  font-weight: bold;
-  color: #67595E;
-  text-decoration: none;
+.logo-image {
+  display: flex;
+  align-items: center;
 }
 
 .navbar-links {
@@ -27,15 +25,15 @@
 
 .navbar-links a {
   text-decoration: none;
-  color: #67595E;
-  font-size: 1.2rem;
+  color: #67595e;
+  font-size: 1.1rem;
   font-weight: 600;
   padding: 8px 16px;
   border-radius: 4px;
 }
 
 .navbar-links a:hover {
-  color: #EED6D3;
+  color: #eed6d3;
   background-color: rgba(103, 89, 94, 0.1);
 }
 
@@ -55,7 +53,7 @@
 .hamburger span {
   width: 30px;
   height: 3px;
-  background: #67595E;
+  background: #67595e;
   border-radius: 10px;
   transition: all 0.3s linear;
 }
@@ -72,7 +70,7 @@
     left: 0;
     right: 0;
     flex-direction: column;
-    background-color: #E8B4B8;
+    background-color: #e8b4b8;
     padding: 20px;
     gap: 20px;
     text-align: center;
@@ -96,4 +94,10 @@
   margin-left: 15px;
   font-family: Arial, Helvetica, sans-serif;
   font-size: 12px;
+}
+
+.logo-image {
+  height: 100px;
+  width: auto;
+  object-fit: contain;
 }

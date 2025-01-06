@@ -10,7 +10,7 @@ function NavBar() {
   return (
     <nav className="navbar">
       <Link to="/" className="navbar-logo">
-        HandUp
+        <img src="/Handuplogo.png" alt="HandUp Logo" className="logo-image" />
       </Link>
       <button className="hamburger" onClick={() => setIsOpen(!isOpen)}>
         <span></span>

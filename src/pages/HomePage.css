@@ -1,134 +1,154 @@
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 .page-container {
-    padding-top: 80px;
+  padding-top: 80px;
 }
 
 .home-container {
-    width: 100%;
-    text-align: center;
-    font-family: Arial, Helvetica, sans-serif;
+  width: 100%;
+  text-align: center;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 .home-hero {
-    color: #67595e;
-    font-weight: bold;
-    padding: 100px 50px;
-    background-color: #e8b4b8;
-    background-image: url("/background.jpg");
-    background-size: cover;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    min-height: 400px;
-    position: relative;
-    background-position: center;
-    background-repeat: no-repeat;
+  color: #67595e;
+  font-weight: bold;
+  padding: 100px 50px;
+  background-color: #e8b4b8;
+  background-image: url("/background.png");
+  background-size: cover;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+  position: relative;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 .home-hero p {
   padding-top: 20px;
 }
 
-
-
-
 .home-hero button {
-    background-color: #67595e;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background-color 0.2s;
-    margin-top: 20px;
+  background-color: #67595e;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  margin-top: 20px;
 }
 
 .button:hover {
-    background-color: #4d4246;
+  background-color: #4d4246;
 }
 .button a {
-    text-decoration: none;
-    color: white;
+  text-decoration: none;
+  color: white;
 }
 
 .project-container {
-    background-color: #eed6d3;
-    width: 100%;
-    padding: 40px 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  background-color: #eed6d3;
+  width: 100%;
+  padding: 40px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .project-container h2 {
-    color: #67595e;
-    padding: 20px;
-    margin: 2px;
+  color: #67595e;
+  padding: 20px;
+  margin: 2px;
 }
 
 #project-list {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 30px;
-    padding: 30px;
-    max-width: 1200px;
-    margin: 0 auto;
-    width: 90%;
-    box-sizing: border-box;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+  padding: 30px;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 90%;
+  box-sizing: border-box;
 }
 
 .project-card {
-    background: white;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    transition: transform 0.2s;
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s;
 }
 
 .project-card:hover {
-    transform: translateY(-5px);
+  transform: translateY(-5px);
 }
 
 .project-card a {
-    text-decoration: none;
-    color: #67595e;
+  text-decoration: none;
+  color: #67595e;
 }
 
 .project-image {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
 }
 
 .project-card h3 {
-    margin: 15px;
-    font-size: 1.2rem;
+  margin: 15px;
+  font-size: 1.2rem;
 }
 
 .project-card p {
-    margin: 15px;
-    font-size: 0.9rem;
+  margin: 15px;
+  font-size: 0.9rem;
 }
 
 @media (max-width: 768px) {
-    #project-list {
-        padding: 15px;
-        width: 95%;
-    }
+  #project-list {
+    padding: 15px;
+    width: 95%;
+  }
 }
 
 @media (max-width: 480px) {
-    #project-list {
-        grid-template-columns: 1fr;
-        width: 100%;
-        padding: 10px;
-    }
+  #project-list {
+    grid-template-columns: 1fr;
+    width: 100%;
+    padding: 10px;
+  }
 }
+
+/* Delete or comment out these styles */
+/*
+.hero-banner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 60vh;
+  background-color: var(--primary-color);
+}
+
+.hero-logo {
+  max-width: 400px;
+  width: 80%;
+  height: auto;
+}
+
+@media (max-width: 768px) {
+  .hero-logo {
+    max-width: 300px;
+  }
+}
+*/
