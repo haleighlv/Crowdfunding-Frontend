@@ -29,6 +29,8 @@ function ProjectPage() {
     }
   }, [project]);
 
+ 
+
   // Format date to DD/MM/YYYY
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -73,6 +75,8 @@ function ProjectPage() {
   if (!project) {
     return <p>Project not found</p>;
   }
+
+   console.log(project.userMap[0])
 
   return (
     <div className="page-container">
@@ -176,9 +180,9 @@ function ProjectPage() {
                   </p>
                   <p className="pledge-user">
                     from{" "}
-                    {pledgeData.anonymous
-                      ? "Anonymous"
-                      : pledgeData.supporter_name || "User"}
+                   {pledgeData.anonymous
+                    ? "Anonymous"
+                    : project.userMap[pledgeData.supporter] || "Unknown"}
                   </p>
                   {pledgeData.comment && (
                     <p className="pledge-comment">{pledgeData.comment}</p>

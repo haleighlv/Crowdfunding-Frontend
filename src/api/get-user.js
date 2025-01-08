@@ -1,6 +1,7 @@
-async function getUser(token) {
-    const url = `${import.meta.env.VITE_API_URL}/api/v1/users/me/`;
+async function getUser(id) {
+    const url = `${import.meta.env.VITE_API_URL}/users/${id}`;
     
+    const token = window.localStorage.getItem("token");
     const response = await fetch(url, {
         method: "GET",
         headers: {
