@@ -25,22 +25,8 @@ function SignupForm() {
 
     if (formData.username && formData.password && formData.email) {
       try {
-        const response = await fetch(
-          `${import.meta.env.VITE_API_URL}/users/`,
-          {
-            method: "post",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(formData),
-          }
-        );
-
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        const data = await response.json();
+        
+        const data = await postUser(formData);
         console.log("Signup successful:", data);
         navigate("/login");
       } catch (err) {

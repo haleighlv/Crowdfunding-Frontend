@@ -1,16 +1,16 @@
-async function postUser(formData) {
-    const url = `${import.meta.env.VITE_API_URL}/users/`;
-
+async function getUser(token) {
+    const url = `${import.meta.env.VITE_API_URL}/api/v1/users/me/`;
+    
     const response = await fetch(url, {
-        method: "POST",
+        method: "GET",
         headers: {
             "Content-Type": "application/json",
+            "Authorization": `Token ${token}`,
         },
-        body: JSON.stringify(formData),
     });
 
     if (!response.ok) {
-        const fallbackError = `Error creating user data with status: ${response.status}`;
+        const fallbackError = `Error fetching user data with status: ${response.status}`;
         const data = await response.json().catch(() => {
             throw new Error(fallbackError);
         });
@@ -21,4 +21,4 @@ async function postUser(formData) {
     return await response.json();
 }
 
-export default postUser;
+export default getUser;
