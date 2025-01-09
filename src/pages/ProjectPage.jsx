@@ -4,6 +4,7 @@ import useProject from "../hooks/use-project";
 import NavBar from "../components/NavBar";
 import "./ProjectPage.css";
 import { useAuth } from "../hooks/use-auth";
+import deleteProject from "../api/delete-project";
 
 function ProjectPage() {
   const navigate = useNavigate();
@@ -32,30 +33,12 @@ function ProjectPage() {
 
   // Add delete handler
   const handleDelete = async () => {
-    if (window.confirm("Are you sure you want to delete this project?")) {
-      try {
-        const token = localStorage.getItem("authToken");
-        const response = await fetch(
-          `${import.meta.env.VITE_API_URL}/projects/${id}/`,
-          {
-            method: "DELETE",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Token ${token}`,
-            },
-          }
-        );
-
-        if (response.ok) {
-          navigate("/");
-        } else {
-          const errorData = await response.text();
-          throw new Error(errorData);
-        }
-      } catch (error) {
-        console.error("Error:", error);
-        alert("Failed to delete project");
-      }
+    const confirmed = window.confirm
+    try {
+      await deleteProject(id);
+      navigate("/");
+    } catch (err) {
+      console.error("Error deleting project:", err);
     }
   };
 
@@ -90,6 +73,8 @@ function ProjectPage() {
   useEffect(() => {
     console.log("Project data:", project);
   }, [project]);
+
+
 
   if (isLoading) {
     return <p>Loading...</p>;
