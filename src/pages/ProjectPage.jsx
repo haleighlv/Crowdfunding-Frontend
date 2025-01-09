@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import useProject from "../hooks/use-project";
 import NavBar from "../components/NavBar";
 import "./ProjectPage.css";
 import { useAuth } from "../hooks/use-auth";
 
 function ProjectPage() {
+  const navigate = useNavigate();
   const { auth } = useAuth();
   const { id } = useParams();
   const { project, isLoading, error } = useProject(id);
@@ -29,7 +30,34 @@ function ProjectPage() {
     }
   }, [project]);
 
- 
+  // Add delete handler
+  const handleDelete = async () => {
+    if (window.confirm("Are you sure you want to delete this project?")) {
+      try {
+        const token = localStorage.getItem("authToken");
+        const response = await fetch(
+          `${import.meta.env.VITE_API_URL}/projects/${id}/`,
+          {
+            method: "DELETE",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Token ${token}`,
+            },
+          }
+        );
+
+        if (response.ok) {
+          navigate("/");
+        } else {
+          const errorData = await response.text();
+          throw new Error(errorData);
+        }
+      } catch (error) {
+        console.error("Error:", error);
+        alert("Failed to delete project");
+      }
+    }
+  };
 
   // Format date to DD/MM/YYYY
   const formatDate = (dateString) => {
@@ -76,7 +104,7 @@ function ProjectPage() {
     return <p>Project not found</p>;
   }
 
-   console.log(project.userMap[0])
+  console.log(project.userMap[0]);
 
   return (
     <div className="page-container">
@@ -180,9 +208,9 @@ function ProjectPage() {
                   </p>
                   <p className="pledge-user">
                     from{" "}
-                   {pledgeData.anonymous
-                    ? "Anonymous"
-                    : project.userMap[pledgeData.supporter] || "Unknown"}
+                    {pledgeData.anonymous
+                      ? "Anonymous"
+                      : project.userMap[pledgeData.supporter] || "Unknown"}
                   </p>
                   {pledgeData.comment && (
                     <p className="pledge-comment">{pledgeData.comment}</p>
@@ -192,6 +220,15 @@ function ProjectPage() {
             })}
           </div>
         </div>
+
+        {/* Add delete button */}
+        {auth && (auth.id === project.owner_id || auth.is_superuser) && (
+          <div className="delete-container">
+            <button className="delete-button" onClick={handleDelete}>
+              Delete Project
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );
