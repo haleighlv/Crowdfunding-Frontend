@@ -1,29 +1,24 @@
 async function deleteProject(projectId) {
-    const url = `${import.meta.env.VITE_API_URL}/projects/${projectId}`;
     const token = window.localStorage.getItem("token");
-    const response = await fetch(url, { method: "DELETE" });
+    const url = `${import.meta.env.VITE_API_URL}/projects/${projectId}/`;
 
     try {
         const response = await fetch(url, {
             method: "DELETE",
             headers: {
-                "Authorization": `Token ${token}`,
-            },
+                "Content-Type": "application/json",
+                "Authorization": `Token ${token}`
+            }
         });
 
-        const data = await response.json();
         if (!response.ok) {
-            const fallbackError = `Error deleting ${projectId}`;
-
-            const data = await response.json().catch(() => {
-                throw new Error(fallbackError);
-            });
-
-            const errorMessage = data?.detail ?? fallbackError;
-            throw new Error(errorMessage);
+            throw new Error(`Error deleting project ${projectId}`);
         }
 
         return true;
+    } catch (error) {
+        console.error("Delete project error:", error);
+        throw error;
     }
 }
 
