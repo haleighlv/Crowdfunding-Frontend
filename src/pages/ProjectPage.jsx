@@ -33,7 +33,7 @@ function ProjectPage() {
 
   // Add delete handler
   const handleDelete = async () => {
-    const confirmed = window.confirm
+    const confirmed = window.confirm;
     try {
       await deleteProject(id);
       navigate("/");
@@ -74,8 +74,6 @@ function ProjectPage() {
     console.log("Project data:", project);
   }, [project]);
 
-
-
   if (isLoading) {
     return <p>Loading...</p>;
   }
@@ -97,12 +95,14 @@ function ProjectPage() {
       <div className="project-page">
         <div className="project-header">
           <h1>{project.title}</h1>
-          <p className="project-date">
-            Created:{" "}
-            {project.date_created
-              ? formatDate(project.date_created)
-              : "Loading..."}
-          </p>
+          <div className="project-meta">
+            <p className="project-date">
+              Created:{" "}
+              {project.date_created
+                ? formatDate(project.date_created)
+                : "Loading..."}
+            </p>
+          </div>
         </div>
 
         <div className="project-content">
