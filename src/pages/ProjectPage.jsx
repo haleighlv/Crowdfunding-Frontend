@@ -8,6 +8,8 @@ import deleteProject from "../api/delete-project";
 
 function ProjectPage() {
   const navigate = useNavigate();
+  const [deleteError, setDeleteError] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
   const { auth } = useAuth();
   const { id } = useParams();
   const { project, isLoading, error } = useProject(id);
@@ -32,15 +34,31 @@ function ProjectPage() {
   }, [project]);
 
   // Add delete handler
-  const handleDelete = async () => {
-    const confirmed = window.confirm;
-    try {
-      await deleteProject(id);
-      navigate("/");
-    } catch (err) {
-      console.error("Error deleting project:", err);
-    }
-  };
+      const handleDelete = async () => {
+        // Add confirmation dialog
+        const isConfirmed = window.confirm("Are you sure you want to delete this project? This action cannot be undone.");
+        
+        if (!isConfirmed) {
+            return; // If user clicks Cancel, do nothing
+        }
+
+        setDeleteError("");
+        setSuccessMessage("");
+        try {
+            const token = window.localStorage.getItem("token");
+            if (!token) {
+                setDeleteError("Sorry! Looks like you're not authorised to delete this project!")
+                return;
+            }
+
+            await deleteProject(id, token);
+            setSuccessMessage("Project deleted successfully");
+            navigate("/");
+        } catch (err) {
+            setDeleteError(`Failed to delete the project: ${err.message}`);
+        }
+    };
+
 
   // Format date to DD/MM/YYYY
   const formatDate = (dateString) => {
