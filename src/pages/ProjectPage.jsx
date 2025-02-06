@@ -236,6 +236,7 @@ function ProjectPage() {
                 Delete Project
               </button>
             </div>
+            
             <div className="edit-button">
               <Link to={`/project/${id}/edit`}>Edit Project</Link>
             </div>
