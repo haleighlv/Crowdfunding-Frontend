@@ -6,6 +6,7 @@ import "./ProjectPage.css";
 import { useAuth } from "../hooks/use-auth";
 import deleteProject from "../api/delete-project";
 
+
 function ProjectPage() {
   const navigate = useNavigate();
   const [deleteError, setDeleteError] = useState("");
@@ -34,31 +35,34 @@ function ProjectPage() {
   }, [project]);
 
   // Add delete handler
-      const handleDelete = async () => {
-        // Add confirmation dialog
-        const isConfirmed = window.confirm("Are you sure you want to delete this project? This action cannot be undone.");
-        
-        if (!isConfirmed) {
-            return; // If user clicks Cancel, do nothing
-        }
+  const handleDelete = async () => {
+    // Add confirmation dialog
+    const isConfirmed = window.confirm(
+      "Are you sure you want to delete this project? This action cannot be undone."
+    );
 
-        setDeleteError("");
-        setSuccessMessage("");
-        try {
-            const token = window.localStorage.getItem("token");
-            if (!token) {
-                setDeleteError("Sorry! Looks like you're not authorised to delete this project!")
-                return;
-            }
+    if (!isConfirmed) {
+      return; // If user clicks Cancel, do nothing
+    }
 
-            await deleteProject(id, token);
-            setSuccessMessage("Project deleted successfully");
-            navigate("/");
-        } catch (err) {
-            setDeleteError(`Failed to delete the project: ${err.message}`);
-        }
-    };
+    setDeleteError("");
+    setSuccessMessage("");
+    try {
+      const token = window.localStorage.getItem("token");
+      if (!token) {
+        setDeleteError(
+          "Sorry! Looks like you're not authorised to delete this project!"
+        );
+        return;
+      }
 
+      await deleteProject(id, token);
+      setSuccessMessage("Project deleted successfully");
+      navigate("/");
+    } catch (err) {
+      setDeleteError(`Failed to delete the project: ${err.message}`);
+    }
+  };
 
   // Format date to DD/MM/YYYY
   const formatDate = (dateString) => {
@@ -226,11 +230,16 @@ function ProjectPage() {
 
         {/* Add delete button */}
         {auth && (auth.id === project.owner_id || auth.is_superuser) && (
-          <div className="delete-container">
-            <button className="delete-button" onClick={handleDelete}>
-              Delete Project
-            </button>
-          </div>
+          <>
+            <div className="delete-container">
+              <button className="delete-button" onClick={handleDelete}>
+                Delete Project
+              </button>
+            </div>
+            <div className="edit-button">
+              <Link to={`/project/${id}/edit`}>Edit Project</Link>
+            </div>
+          </>
         )}
       </div>
     </div>
